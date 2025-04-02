@@ -9,13 +9,7 @@ import { ElMenu, ElMenuItem } from "element-plus";
         mode="horizontal"
         :router="true"
     >
-      <el-menu-item index="0">
-        <img
-            style="width: 100px"
-            src="/Users/andrew/Downloads/NailongMall/tomatomall-frontend/src/images/NailongLogo.png"
-            alt="Element logo"
-        />
-      </el-menu-item>
+
       <el-menu-item index="/">番茄书城</el-menu-item>
       <el-menu-item index="/cart">购物车</el-menu-item>
       <el-menu-item index="/warehouse">库存管理</el-menu-item>
