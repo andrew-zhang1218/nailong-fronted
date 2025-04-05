@@ -10,3 +10,8 @@ app.use(ElementPlus);
 app.use(router);
 
 createApp(App).use(router).mount('#app')
+
+router.beforeEach((to, from, next) => {
+    document.title = to.meta.title;
+    next();
+});
