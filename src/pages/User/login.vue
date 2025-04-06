@@ -22,7 +22,7 @@ const loginDisabled = computed(() => {
 function handleLogin() {
   login(username.value, password.value)
       .then(res => {
-        console.log(res)
+        console.log(res.data)
         if (res.data.code === '200') {
           const token = res.data.data
 
@@ -31,6 +31,7 @@ function handleLogin() {
 
           // 再调用 getUser 接口获取用户信息
           getUser(username.value).then(userRes => {
+            console.log(userRes)
             const user = userRes.data.data
             sessionStorage.setItem('name', user.name || '')
             sessionStorage.setItem('role', user.role || '')
