@@ -52,6 +52,16 @@ const routes = [
         meta: { showNav: false,
                 title: '注册'
         }
+    },
+    {
+        path: '/userinfo',
+        name: 'userinfo',
+        component: () => import('@/pages/User/userinfo.vue'),
+        meta: {
+            showNav: true,
+            title: '个人信息',
+            requiresAuth: true
+        }
     }
 ];
 

@@ -9,7 +9,7 @@ import { ElMenu, ElMenuItem } from "element-plus";
         mode="horizontal"
         :router="true"
     >
-      <el-menu-item index="/">奶龙书城</el-menu-item>
+      <el-menu-item index="/home">奶龙书城</el-menu-item>
       <el-menu-item index="/cart">购物车</el-menu-item>
       <el-menu-item index="/warehouse">库存管理</el-menu-item>
       <el-menu-item index="/userinfo">个人信息</el-menu-item>
