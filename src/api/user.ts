@@ -11,7 +11,7 @@ const apiClient = axios.create({
 
 // 通用响应结构
 export interface ApiResponse<T = any> {
-    code: number;
+    code: string;
     message: string;
     data: T;
 }
@@ -28,6 +28,32 @@ export interface AccountVO {
     email?: string;
     location?: string;
 }
+//配置拦截器
+apiClient.interceptors.request.use(
+    config => {
+        const token = sessionStorage.getItem('token')
+        if (token) {
+            config.headers['token'] = token  // 👈 后端要求的字段名
+        }
+        return config
+    },
+
+)
+// 响应拦截器：统一处理 401 未登录
+apiClient.interceptors.response.use(
+    response => {
+        return response
+    },
+    error => {
+        if (error.response && error.response.status === 401) {
+            console.warn('未授权，登录失效')
+            alert('登录失效，请重新登录')
+            sessionStorage.removeItem('token')
+// 可选：跳转登录页，比如 router.push('/login')
+        }
+
+    }
+)
 
 // 获取用户详情
 export const getUser = (username: string) => {
@@ -36,12 +62,12 @@ export const getUser = (username: string) => {
 
 // 创建新用户
 export const createUser = (account: AccountVO) => {
-    return apiClient.post<ApiResponse<AccountVO>>('/accounts', account);
+    return apiClient.post<ApiResponse<string>>('/accounts', account);
 };
 
 // 更新用户信息
 export const updateUser = (account: AccountVO) => {
-    return apiClient.put<ApiResponse<AccountVO>>('/accounts', account);
+    return apiClient.put<ApiResponse<string>>('/accounts', account);
 };
 
 // 登录（使用 application/x-www-form-urlencoded）
@@ -50,7 +76,7 @@ export const login = (username: string, password: string) => {
     params.append('username', username);
     params.append('password', password);
 
-    return apiClient.post<ApiResponse<AccountVO>>('/accounts/login', params, {
+    return apiClient.post<ApiResponse<string>>('/accounts/login', params, {
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
         },
