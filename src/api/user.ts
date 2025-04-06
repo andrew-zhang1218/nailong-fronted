@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Userinfo from "@/pages/User/userinfo.vue";
 
 // 创建 Axios 实例
 const apiClient = axios.create({
@@ -27,6 +28,16 @@ export interface AccountVO {
     telephone?: string;
     email?: string;
     location?: string;
+}
+//用户信息
+export interface Userinfo{
+    username: string;
+    name: string;
+    role: string;
+    avatar: string;
+    telephone: string;
+    email: string;
+    location: string;
 }
 //配置拦截器
 apiClient.interceptors.request.use(
@@ -57,7 +68,8 @@ apiClient.interceptors.response.use(
 
 // 获取用户详情
 export const getUser = (username: string) => {
-    return apiClient.get<ApiResponse<AccountVO>>(`/accounts/${username}`);
+    console.log("api");
+    return apiClient.get<ApiResponse<Userinfo>>(`/accounts/${username}`);
 };
 
 // 创建新用户
@@ -75,7 +87,7 @@ export const login = (username: string, password: string) => {
     const params = new URLSearchParams();
     params.append('username', username);
     params.append('password', password);
-
+    console.log("api");
     return apiClient.post<ApiResponse<string>>('/accounts/login', params, {
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
