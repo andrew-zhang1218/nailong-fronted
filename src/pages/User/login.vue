@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { ElForm, ElFormItem, ElInput, ElButton, ElMessage } from 'element-plus'
 import { ref, computed } from 'vue'
-import { router } from '@/router'
+import {useRouter} from 'vue-router'
 import { login, getUser } from '@/api/user'
 
+const router = useRouter()
 // 输入框值
 const username = ref('')
 const password = ref('')
@@ -92,13 +93,23 @@ function handleLogin() {
 
     <!-- 登录按钮 -->
     <el-form-item>
+      <div class="button-group">
       <el-button
           type="primary"
           :disabled="loginDisabled"
           @click="handleLogin"
+          class="login-button"
       >
         登录
       </el-button>
+      <el-button
+          plain
+          @click="router.push('/register')"
+          class="register-button"
+      >
+        立即注册
+      </el-button>
+      </div>
     </el-form-item>
   </el-form>
 </template>
@@ -111,5 +122,16 @@ function handleLogin() {
   border: 1px solid #eee;
   border-radius: 6px;
   background-color: #fff;
+}
+.button-group {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.login-button {
+  width:30%;
+}
+.register-button {
+  width:30%;
 }
 </style>
