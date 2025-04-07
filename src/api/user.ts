@@ -1,5 +1,4 @@
 import axios from 'axios';
-import Userinfo from "@/pages/User/userinfo.vue";
 
 // 创建 Axios 实例
 const apiClient = axios.create({
@@ -32,6 +31,7 @@ export interface AccountVO {
 //用户信息
 export interface Userinfo{
     username: string;
+    password: string;
     name: string;
     role: string;
     avatar: string;
@@ -60,7 +60,7 @@ apiClient.interceptors.response.use(
             console.warn('未授权，登录失效')
             alert('登录失效，请重新登录')
             sessionStorage.removeItem('token')
-// 可选：跳转登录页，比如 router.push('/login')
+            router.push('/login')
         }
 
     }

@@ -45,7 +45,7 @@ function handleLogin() {
             })
 
             // 跳转到主页
-            // router.push('/home')
+            router.push('/home')
           })
         } else {
           ElMessage({

@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import { ElForm, ElFormItem, ElInput, ElButton, ElMessage, ElUpload } from 'element-plus'
+import { ElForm, ElFormItem, ElInput, ElButton, ElMessage, ElUpload, ElAvatar,ElIcon } from 'element-plus'
 import { ref, onMounted } from 'vue'
 import { getUser, updateUser } from '@/api/user'
 
 // 用户信息
 const userInfo = ref({
+  id: '',
   username: '',
+  password: '',
   name: '',
   role: '',
   avatar: '',
@@ -81,8 +83,8 @@ const loadUserInfo = async () => {
   try {
     const username = sessionStorage.getItem('username')
     if (!username) return
-
     const res = await getUser(username)
+    console.log(res)
     userInfo.value = res.data.data
     editData.value = { ...userInfo.value }
   } catch (err) {
@@ -111,8 +113,9 @@ const submitEdit = async () => {
       email: editData.value.email || undefined,
       location: editData.value.location || undefined
     }
-
+    console.log(params)
     const res = await updateUser(params)
+    console.log(res)
     if (res.data.code === '200') {
       userInfo.value = { ...editData.value }
       isEditMode.value = false
@@ -174,6 +177,11 @@ onMounted(() => {
         <el-input v-model="editData.username" disabled />
       </el-form-item>
 
+      <!-- 密码 -->
+      <el-form-item label="密码" prop="password">
+        <el-input v-model="editData.password" />
+      </el-form-item>
+
       <!-- 真实姓名 -->
       <el-form-item label="真实姓名" prop="name">
         <el-input v-model="editData.name" />
@@ -209,6 +217,11 @@ onMounted(() => {
       <div class="info-item">
         <label>用户名：</label>
         <span>{{ userInfo.username }}</span>
+      </div>
+
+      <div class="info-item">
+        <label>密码：</label>
+        <span>******</span>
       </div>
 
       <div class="info-item">
