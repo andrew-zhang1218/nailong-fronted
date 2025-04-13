@@ -2,10 +2,8 @@
 import { ElForm, ElFormItem, ElInput, ElButton, ElMessage, ElUpload, ElAvatar,ElIcon } from 'element-plus'
 import { ref, onMounted } from 'vue'
 import { getUser, updateUser } from '@/api/user'
-
 // 用户信息
 const userInfo = ref({
-  id: '',
   username: '',
   password: '',
   name: '',

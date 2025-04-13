@@ -1,7 +1,8 @@
 import axios from 'axios';
-
+import {useRouter} from 'vue-router'
+const router = useRouter()
 // 创建 Axios 实例
-const apiClient = axios.create({
+export const apiClient = axios.create({
     baseURL: 'http://localhost:8080/api',
     timeout: 5000,
     headers: {
@@ -68,7 +69,6 @@ apiClient.interceptors.response.use(
 
 // 获取用户详情
 export const getUser = (username: string) => {
-    console.log("api");
     return apiClient.get<ApiResponse<Userinfo>>(`/accounts/${username}`);
 };
 
@@ -87,7 +87,6 @@ export const login = (username: string, password: string) => {
     const params = new URLSearchParams();
     params.append('username', username);
     params.append('password', password);
-    console.log("api");
     return apiClient.post<ApiResponse<string>>('/accounts/login', params, {
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',

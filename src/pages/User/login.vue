@@ -23,7 +23,7 @@ const loginDisabled = computed(() => {
 function handleLogin() {
   login(username.value, password.value)
       .then(res => {
-        console.log(res.data)
+        console.log(res)
         if (res.data.code === '200') {
           const token = res.data.data
 

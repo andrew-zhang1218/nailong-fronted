@@ -1,71 +1,66 @@
-import axios from 'axios';
+import {apiClient,ApiResponse}from './user';
 
-// 创建 Axios 实例
-export const apiClient = axios.create({
-    baseURL: 'http://localhost:8080/api',
-    timeout: 5000,
-    headers: {
-        'Content-Type': 'application/json',
-    },
-});
-
-// 通用响应结构
-export interface ApiResponse<T = any> {
-    code: string;
-    message: string;
-    data: T;
+// 规格对象结构（Specification）
+export interface Specification {
+    id: number;          // 规格 ID
+    item: string;        // 规格项（如：作者、ISBN、页数等）
+    value: string;       // 规格值（如：周志明、9787111421900、540页等）
+    product_id: number;  // 商品 ID
 }
-
-// 商品对象结构（ProductVO）
-export interface ProductVO {
-    id?: number;
-    name: string;
-    description?: string;
-    price: number;
-    category?: string;
-    imageUrl?: string;
-    // 根据后端定义自行补充字段
-}
-
 // 库存对象结构（StockpileVO）
 export interface StockpileVO {
-    productId: number;
-    amount: number;
+    id: number;          // 库存记录的 ID
+    productId: number;   // 商品的 ID
+    amount: number;      // 商品的库存数量
+    frozen: number;      // 冻结库存数量
+}
+// 商品对象结构（包含 specifications,Stockpile）
+export interface ProductVO {
+    id?: string;
+    title: string;
+    price: number;
+    rate: number;
+    description?: string;
+    cover?: string;
+    detail?: string;
+    specifications?: Specification[];  // 商品规格数组
+    stockpile?: StockpileVO;  // 新增库存信息字段
 }
 
-// ✅ 添加商品
-export const addProduct = (product: ProductVO) => {
-    return apiClient.post<ApiResponse<ProductVO>>('/products', product);
-};
 
-// ✅ 获取单个商品信息
-export const getProduct = (id: number) => {
-    return apiClient.get<ApiResponse<ProductVO>>(`/products/${id}`);
-};
-
-// ✅ 获取全部商品列表
+// 1️⃣ 获取全部商品列表
 export const getProductList = () => {
     return apiClient.get<ApiResponse<ProductVO[]>>('/products');
 };
 
-// ✅ 更新商品信息
+// 2️⃣ 获取单个商品信息
+export const getProduct = (id: number) => {
+    return apiClient.get<ApiResponse<ProductVO>>(`/products/${id}`);
+};
+
+// 3️⃣ 更新商品信息
 export const updateProduct = (product: ProductVO) => {
-    return apiClient.put<ApiResponse>('/products', product);
+    return apiClient.put<ApiResponse<string>>('/products', product);
 };
 
-// ✅ 删除商品
+// 4️⃣ 添加商品
+export const addProduct = (product: ProductVO) => {
+    return apiClient.post<ApiResponse<ProductVO>>('/products', product);
+};
+
+// 5️⃣ 删除商品
 export const deleteProduct = (id: number) => {
-    return apiClient.delete<ApiResponse>(`/products/${id}`);
+    return apiClient.delete<ApiResponse<string>>(`/products/${id}`);
 };
 
-// ✅ 修改库存（增加或减少）
+// 6️⃣ 修改库存（增加或减少）
 export const updateProductStockpile = (productId: number, amount: number) => {
-    return apiClient.patch<ApiResponse>(`/products/stockpile/${productId}`, null, {
+    return apiClient.patch<ApiResponse<string>>(`/products/stockpile/${productId}`, null, {
         params: { amount }
     });
 };
 
-// ✅ 获取商品库存
+// 7️⃣ 获取商品库存
 export const getProductStockpile = (productId: number) => {
     return apiClient.get<ApiResponse<StockpileVO>>(`/products/stockpile/${productId}`);
 };
