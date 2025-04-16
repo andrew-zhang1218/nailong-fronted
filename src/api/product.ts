@@ -16,7 +16,7 @@ export interface StockpileVO {
 }
 // 商品对象结构（包含 specifications,Stockpile）
 export interface ProductVO {
-    id?: string;
+    id?: number;
     title: string;
     price: number;
     rate: number;
