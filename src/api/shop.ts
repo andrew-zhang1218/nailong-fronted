@@ -1,5 +1,4 @@
 import {apiClient,ApiResponse}from './user';
-import {ProductVO} from "@/api/product";
 
 export interface Cart{
     cartItemId: number;
