@@ -21,7 +21,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { getProductList, getProductStockpile } from '@/api/product';  // 假设你已经定义了 getProductStockpile API 方法
+import { getProductList, getProductStockpile } from '@/api/product'; // 提取库存
 import { useRouter } from 'vue-router';
 import { ElButton, ElCard, ElRow, ElCol } from 'element-plus';
 

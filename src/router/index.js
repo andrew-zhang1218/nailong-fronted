@@ -51,7 +51,6 @@ const routes = [
             showNav: true,
             title: '商品详情',
             requiresAuth: true,
-
         }
     },
     {

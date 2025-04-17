@@ -77,7 +77,6 @@ const cartData = ref<CartResponse>({
   totalAmount: 0
 })
 
-// 加载状态
 const loading = ref(false)
 
 // 获取购物车数据
