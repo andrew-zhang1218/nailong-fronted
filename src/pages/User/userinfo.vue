@@ -106,10 +106,6 @@ const submitEdit = async () => {
   try {
     const params = {
       ...editData.value,
-      // 清除未修改的空值
-      telephone: editData.value.telephone || undefined,
-      email: editData.value.email || undefined,
-      location: editData.value.location || undefined
     }
     console.log(params)
     const res = await updateUser(params)
