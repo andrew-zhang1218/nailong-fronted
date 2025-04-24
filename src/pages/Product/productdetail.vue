@@ -19,6 +19,12 @@
           <div class="stock-info">
             <p><strong>库存：</strong>{{ product.stockpile?.amount }}</p>
           </div>
+
+          <!-- 数量选择 + 加入购物车按钮 -->
+          <div class="cart-actions">
+            <el-input-number v-model="quantity" :min="1" :max="product.stockpile?.amount || 10" label="数量" />
+            <el-button type="primary" @click="addToCart">加入购物车</el-button>
+          </div>
         </div>
       </el-col>
     </el-row>
@@ -27,17 +33,16 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { getProduct } from '@/api/product';
 import { useRoute } from 'vue-router';
+import { getProduct } from '@/api/product';
+import { postProductinCart } from '@/api/shop';
+import { ElMessage } from 'element-plus';
 
-// 存储商品详情数据
-const product = ref(null);
-
-// 获取商品 ID
 const route = useRoute();
 const productId = route.params.id;
+const product = ref(null);
+const quantity = ref(1);
 
-// 获取商品详情
 const fetchProductDetail = async () => {
   try {
     const response = await getProduct(productId);
@@ -47,19 +52,28 @@ const fetchProductDetail = async () => {
   }
 };
 
-// 组件挂载时获取商品详情
 onMounted(fetchProductDetail);
 
-// 获取商品规格值
 const getSpecificationValue = (item) => {
   const spec = product.value?.specifications?.find(spec => spec.item === item);
   return spec ? spec.value : '无信息';
+};
+
+const addToCart = async () => {
+  try {
+    const response=await postProductinCart(product.value.id, quantity.value);
+    console.log(response);
+    ElMessage.success('成功加入购物车');
+  } catch (error) {
+    console.error('加入购物车失败', error);
+    ElMessage.error('加入购物车失败，请稍后重试');
+  }
 };
 </script>
 
 <style scoped>
 .product-detail {
-  padding: 80px 20px 20px; /* 增加顶部间距，避免导航栏遮挡 */
+  padding: 80px 20px 20px;
 }
 
 .product-row {
@@ -75,7 +89,7 @@ const getSpecificationValue = (item) => {
 
 .product-cover {
   width: 100%;
-  max-width: 350px;  /* 限制图片最大宽度 */
+  max-width: 350px;
   height: auto;
   border-radius: 8px;
 }
@@ -114,5 +128,13 @@ const getSpecificationValue = (item) => {
   font-size: 16px;
   color: #555;
 }
+
+.cart-actions {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 </style>
+
 

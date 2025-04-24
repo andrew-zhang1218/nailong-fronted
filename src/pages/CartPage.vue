@@ -62,7 +62,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { ElMessage, ElMessageBox, ElEmpty, ElInputNumber, ElButton, ElCard, ElLoading } from 'element-plus'
 import type { Cart, CartResponse } from '@/api/shop'
 import {
   getProductinCart,
