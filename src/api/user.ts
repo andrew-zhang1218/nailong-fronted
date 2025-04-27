@@ -84,13 +84,10 @@ export const updateUser = (account: AccountVO) => {
 
 // 登录（使用 application/x-www-form-urlencoded）
 export const login = (username: string, password: string) => {
-    const params = new URLSearchParams();
-    params.append('username', username);
-    params.append('password', password);
-    return apiClient.post<ApiResponse<string>>('/accounts/login', params, {
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
+    return apiClient.post<ApiResponse<string>>('/accounts/login', {
+        username,
+        password,
     });
 };
+
 
