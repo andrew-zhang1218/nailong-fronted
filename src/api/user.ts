@@ -29,6 +29,7 @@ export interface AccountVO {
     email?: string;
     location?: string;
 }
+
 //用户信息
 export interface Userinfo{
     username: string;
@@ -40,6 +41,7 @@ export interface Userinfo{
     email: string;
     location: string;
 }
+
 //配置拦截器
 apiClient.interceptors.request.use(
     config => {
@@ -90,4 +92,14 @@ export const login = (username: string, password: string) => {
     });
 };
 
+// 上传图片
+export const uploadImage = (file: File) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    return apiClient.post<ApiResponse<string>>('/images', formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+    });
+};
 

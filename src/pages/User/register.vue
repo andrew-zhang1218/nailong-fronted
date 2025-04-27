@@ -184,14 +184,14 @@ const handleRegister = () => {
 
     <el-form-item>
       <div class="button-container">
-      <el-button
-          type="primary"
-          :disabled="registerDisabled"
-          @click="handleRegister"
-          class="left-button"
-      >
-        立即注册
-      </el-button>
+        <el-button
+            type="primary"
+            :disabled="registerDisabled"
+            @click="handleRegister"
+            class="left-button"
+        >
+          立即注册
+        </el-button>
 
         <el-button
             plain

@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import advertisement from "@/pages/advertisement.vue";
 
 const routes = [
     {
@@ -114,6 +115,16 @@ const routes = [
             showNav: true,
             title: '个人信息',
             requiresAuth: true
+        }
+    },
+    {
+        path: '/advertisement',
+        name: 'advertisement',
+        component: () => import('@/pages/advertisement.vue'),
+        meta: {
+            showNav: true,
+            title: '广告',
+            requiresAuth: true,
         }
     }
 ];

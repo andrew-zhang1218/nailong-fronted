@@ -14,13 +14,13 @@ export const getAllAdvertisements = () => {
 }
 
 // 2. 更新广告信息
-export const updateAdvertisement = (id: number, title: string, content: string, imgUrl: string, productId: string) => {
-    return apiClient.put<ApiResponse<string>>(`/advertisements`);
+export const updateAdvertisement = (advertisement: Advertisement) => {
+    return apiClient.put<ApiResponse<string>>(`/advertisements`, advertisement);
 }
 
 // 3. 创建广告
-export const createAdvertisement = (title: string, content: string, imgUrl: string, productId: string) => {
-    return apiClient.post<ApiResponse<Advertisement>>(`/advertisements`);
+export const createAdvertisement = (advertisement: Advertisement) => {
+    return apiClient.post<ApiResponse<Advertisement>>(`/advertisements`, advertisement);
 }
 
 // 4. 删除广告

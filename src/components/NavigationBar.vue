@@ -23,6 +23,7 @@ const isAdmin = userRole === 'admin';  // 判断是否是管理员
       <el-menu-item v-else index="/warehouse">库存管理</el-menu-item>
 
       <el-menu-item index="/userinfo">个人信息</el-menu-item>
+      <el-menu-item index="/advertisement">广告</el-menu-item>
     </el-menu>
   </div>
 </template>
