@@ -64,6 +64,10 @@
 import { ref, onMounted } from 'vue'
 import { ElMessage, ElMessageBox, ElEmpty, ElInputNumber, ElButton, ElCard, ElLoading } from 'element-plus'
 import type { Cart, CartResponse } from '@/api/shop'
+import { getProductStockpile } from '@/api/product'
+import {useRouter} from 'vue-router'
+const router = useRouter()
+
 import {
   getProductinCart,
   updateProductinCart,
@@ -79,12 +83,27 @@ const cartData = ref<CartResponse>({
 
 const loading = ref(false)
 
+const stockMap = ref<Map<number, number>>(new Map()) // 商品库存缓存
+
 // 获取购物车数据
 const fetchCart = async () => {
   try {
     loading.value = true
     const res = await getProductinCart()
     cartData.value = res.data.data
+
+    // 📦 获取每个商品的库存
+    const promises = cartData.value.items.map(async (item) => {
+      try {
+        const res = await getProductStockpile(item.productId)
+        const amount = res.data.data.amount
+        stockMap.value.set(item.productId, amount)
+      } catch (err) {
+        stockMap.value.set(item.productId, 1) // 默认兜底
+      }
+    })
+
+    await Promise.all(promises)
   } catch (error) {
     ElMessage.error('获取购物车数据失败')
   } finally {
@@ -121,14 +140,16 @@ const deleteItem = async (cartItemId: number) => {
 
 // 获取最大可购数量
 const getMaxQuantity = (item: Cart) => {
-  // TODO: 实际应调用库存接口获取最大数量
-  return 99 // 临时示例值
+  return stockMap.value.get(item.productId) || 1
 }
+
 
 // 结算处理(订单模块)
 const handleCheckout = () => {
   // TODO: 跳转到结算页面
-  ElMessage.success('跳转到结算页面')
+  // 这里可以使用 Vue Router 跳转到结算页面
+  router.push('/checkoutorder')
+  ElMessage.success('正在结算')
 }
 
 // 初始化加载

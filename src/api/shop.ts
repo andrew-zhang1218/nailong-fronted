@@ -76,3 +76,35 @@ export const updateProductinCart = (id: number, quantity: number) => {
 export const getProductinCart = () => {
     return apiClient.get<ApiResponse<CartResponse>>(`/cart`);
 }
+
+// 5. 提交订单
+export const checkoutOrder = (
+    cartItemIds: string[],
+    shipping_address: string,
+    payment_method: string
+) => {
+    return apiClient.post<ApiResponse<Order>>(
+        '/cart/checkout',
+        qs.stringify({
+            cartItemIds,         // 自动序列化为多个 cartItemIds=xxx
+            shipping_address,    // 如果是 JSON 字符串也可以直接传
+            payment_method
+        }, { arrayFormat: 'repeat' }), // 关键配置：让数组变成 ?cartItemIds=1&cartItemIds=2...
+        {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }
+    );
+}
+
+// 6. 发起支付请求（支付宝 HTML 表单）
+export const payOrder = (orderId: number) => {
+    return apiClient.post<ApiResponse<{
+        paymentForm: string,
+        orderId: number,
+        totalAmount: string,
+        paymentMethod: string
+    }>>(`/orders/${orderId}/pay`);
+};
+

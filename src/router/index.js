@@ -14,10 +14,30 @@ const routes = [
     {
         path: '/cart',
         name: 'cart',
-        component: () => import('@/pages/CartPage.vue'),
+        component: () => import('@/pages/shop/CartPage.vue'),
         meta: {
             showNav: true,
             title: '购物车',
+            requiresAuth: true
+        }
+    },
+    {
+        path: '/checkoutorder',
+        name: 'checkoutorder',
+        component: () => import('@/pages/shop/CheckoutOrder.vue'),
+        meta: {
+            showNav: true,
+            title: '提交订单',
+            requiresAuth: true
+        }
+    },
+    {
+        path: '/paypage',
+        name: 'paypage',
+        component: () => import('@/pages/shop/Paypage.vue'),
+        meta: {
+            showNav: true,
+            title: '支付页面',
             requiresAuth: true
         }
     },
